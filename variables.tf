@@ -38,3 +38,17 @@ variable "subnet_id" {
 variable "server_count" {
     default = 1
 }
+
+variable "key_name" {
+  type = string
+}
+
+variable "server_instance_type" {
+  description = "The AWS instance type to use for servers."
+  default     = "t3.micro"
+}
+
+variable "root_block_device_size" {
+  description = "The volume size of the root block device."
+  default     = 16
+}
