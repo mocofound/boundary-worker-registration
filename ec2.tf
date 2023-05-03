@@ -71,6 +71,8 @@ resource "aws_instance" "worker" {
     region                    = var.region
     cloud_env                 = "aws"
     worker_activation_token   = boundary_worker.worker_1.controller_generated_activation_token
+    NAME = "boundary"
+    TYPE = "worker"
   })
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
 
