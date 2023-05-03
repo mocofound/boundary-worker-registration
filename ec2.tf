@@ -66,7 +66,7 @@ resource "aws_instance" "worker" {
     tags                  = {}
   }
 
-  user_data = templatefile("./modules/shared/data-scripts/user-data.sh", {
+  user_data = templatefile("${path.module}/modules/shared/data-scripts/user-data.sh", {
     server_count              = var.server_count
     region                    = var.region
     cloud_env                 = "aws"
