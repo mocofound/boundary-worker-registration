@@ -76,16 +76,6 @@ resource "aws_instance" "worker" {
     server_count              = var.server_count
     region                    = var.region
     cloud_env                 = "aws"
-    retry_join                = var.retry_join
-    nomad_binary              = var.nomad_binary
-    nomad_consul_token_id     = var.nomad_consul_token_id
-    nomad_consul_token_secret = var.nomad_consul_token_secret
-    nomad_license_path        = var.nomad_license_path
-    consul_license_path       = var.consul_license_path
-    datacenter                = var.region
-    recursor                  = var.recursor
-    vault_license_path        = var.vault_license_path
-    #kms_key                   = aws_kms_key.vault.id
   })
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
 
