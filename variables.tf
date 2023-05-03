@@ -41,6 +41,7 @@ variable "server_count" {
 
 variable "key_name" {
   type = string
+  default = "ahar-keypair-2024"
 }
 
 variable "server_instance_type" {
