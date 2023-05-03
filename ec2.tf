@@ -23,7 +23,6 @@ data "aws_ami" "nomad-mr" {
   }
 }
 
-
 resource "random_id" "server" {
   byte_length = 4
   keepers = {
@@ -47,7 +46,7 @@ resource "aws_instance" "server" {
   key_name      = var.key_name
   subnet_id     = aws_subnet.public[count.index].id
   #subnet_id              = aws_subnet.private[count.index].id
-  vpc_security_group_ids = [aws_security_group.nomad_client_nlb.id, aws_security_group.consul_nomad_ui_ingress.id, aws_security_group.ssh_ingress.id, aws_security_group.allow_all_internal.id]
+  vpc_security_group_ids = [boundary_sg.id]
 
   #TODO
   associate_public_ip_address = true
@@ -151,5 +150,26 @@ data "aws_iam_policy_document" "auto_discover_cluster" {
     ]
 
     resources = ["*"]
+  }
+}
+
+resource "aws_security_group" "boundary_sg" {
+  name_prefix = "bastian_sg"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }

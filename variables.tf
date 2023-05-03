@@ -22,4 +22,10 @@ variable "scope_id" {
 variable "prefix" {
     type = string
     description = "prefix for resources"
+    default = "boundary"
+}
+
+variable "vpc_id" {
+    type = string
+    description = "id of vpc"
 }
