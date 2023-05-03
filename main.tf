@@ -1,12 +1,12 @@
 provider "boundary" {
-#   addr                            = "http://127.0.0.1:9200"
-#   auth_method_id                  = "ampw_1234567890" # changeme
-#   password_auth_method_login_name = "myuser"          # changeme
-#   password_auth_method_password   = "passpass"        # changeme
-addr = var.boundary_cluster_url
-auth_method_id = data.http.boundary_cluster_auth_methods.id
-password_auth_method_login_name = var.boundary_username
-password_auth_method_password = var.boundary_password
+  #   addr                            = "http://127.0.0.1:9200"
+  #   auth_method_id                  = "ampw_1234567890" # changeme
+  #   password_auth_method_login_name = "myuser"          # changeme
+  #   password_auth_method_password   = "passpass"        # changeme
+  addr                            = var.boundary_cluster_url
+  auth_method_id                  = data.http.boundary_cluster_auth_methods.id
+  password_auth_method_login_name = var.boundary_username
+  password_auth_method_password   = var.boundary_password
 }
 
 data "http" "boundary_cluster_auth_methods" {

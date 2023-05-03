@@ -8,9 +8,13 @@ variable "boundary_password" {
 }
 
 variable "region" {
-    default = "us-east-2"
+  default = "us-east-2"
 }
 
 variable "use_hcp_packer" {
-    default = true
+  default = true
+}
+
+variable "scope_id" {
+  default = "global"
 }

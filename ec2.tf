@@ -1,9 +1,9 @@
 data "hcp_packer_image" "nomad-multi-region" {
   #bucket_name     = "nomad-multi-region-focal"
-  bucket_name     = "nomad-multi-region"
-  channel         = "latest"
-  cloud_provider  = "aws"
-  region          = var.region
+  bucket_name    = "nomad-multi-region"
+  channel        = "latest"
+  cloud_provider = "aws"
+  region         = var.region
 }
 
 locals {
@@ -27,14 +27,14 @@ resource "random_id" "random" {
 }
 
 resource "aws_instance" "server" {
-  count                  = var.server_count
+  count = var.server_count
   #ami                    = "${data.aws_ami.nomad-mr.image_id}"
-  ami = random_id.server.keepers.ami_id
-  instance_type          = var.server_instance_type
-  key_name               = var.key_name
-  subnet_id              = aws_subnet.public[count.index].id
+  ami           = random_id.server.keepers.ami_id
+  instance_type = var.server_instance_type
+  key_name      = var.key_name
+  subnet_id     = aws_subnet.public[count.index].id
   #subnet_id              = aws_subnet.private[count.index].id
-  vpc_security_group_ids = [aws_security_group.nomad_client_nlb.id,aws_security_group.consul_nomad_ui_ingress.id, aws_security_group.ssh_ingress.id, aws_security_group.allow_all_internal.id]
+  vpc_security_group_ids = [aws_security_group.nomad_client_nlb.id, aws_security_group.consul_nomad_ui_ingress.id, aws_security_group.ssh_ingress.id, aws_security_group.allow_all_internal.id]
 
   #TODO
   associate_public_ip_address = true
@@ -57,7 +57,7 @@ resource "aws_instance" "server" {
     volume_type           = "gp2"
     volume_size           = var.root_block_device_size
     delete_on_termination = "true"
-    tags = {}
+    tags                  = {}
   }
 
   user_data = templatefile("./modules/shared/data-scripts/user-data-server.sh", {
