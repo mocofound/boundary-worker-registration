@@ -7,6 +7,9 @@ variable "boundary_username" {
 variable "boundary_password" {
 }
 
+variable "boundary_auth_method_id" {
+}
+
 variable "region" {
   default = "us-east-2"
 }

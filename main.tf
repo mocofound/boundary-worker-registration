@@ -4,7 +4,8 @@ provider "boundary" {
   #   password_auth_method_login_name = "myuser"          # changeme
   #   password_auth_method_password   = "passpass"        # changeme
   addr                            = var.boundary_cluster_url
-  auth_method_id                  = data.http.boundary_cluster_auth_methods.id
+  #auth_method_id                  = data.http.boundary_cluster_auth_methods.id
+  auth_method_id                  = var.boundary_auth_method_id
   password_auth_method_login_name = var.boundary_username
   password_auth_method_password   = var.boundary_password
 }
