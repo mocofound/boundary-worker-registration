@@ -18,3 +18,8 @@ variable "use_hcp_packer" {
 variable "scope_id" {
   default = "global"
 }
+
+variable "prefix" {
+    type = string
+    description = "prefix for resources"
+}
