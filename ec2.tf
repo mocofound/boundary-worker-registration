@@ -86,7 +86,7 @@ resource "aws_instance" "server" {
     datacenter                = var.region
     recursor                  = var.recursor
     vault_license_path        = var.vault_license_path
-    kms_key                   = aws_kms_key.vault.id
+    #kms_key                   = aws_kms_key.vault.id
   })
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
 
@@ -95,6 +95,61 @@ resource "aws_instance" "server" {
     instance_metadata_tags = "enabled"
   }
   depends_on = [
-    aws_kms_key.vault
+    #aws_kms_key.vault
   ]
+}
+
+
+# resource "aws_kms_key" "vault" {
+#   description             = "Vault unseal key"
+#   deletion_window_in_days = 10
+
+#   tags = {
+#     Name = "vault-kms-unseal-${var.name}"
+#   }
+# }
+
+resource "aws_iam_instance_profile" "instance_profile" {
+  name_prefix = "${var.name}-profile"
+  role        = aws_iam_role.instance_role.name
+}
+
+resource "aws_iam_role" "instance_role" {
+  name_prefix        = "${var.name}-role"
+  assume_role_policy = data.aws_iam_policy_document.instance_role.json
+}
+
+data "aws_iam_policy_document" "instance_role" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role_policy" "auto_discover_cluster" {
+  name   = "${var.name}-auto-discover-cluster-pol"
+  role   = aws_iam_role.instance_role.id
+  policy = data.aws_iam_policy_document.auto_discover_cluster.json
+}
+
+data "aws_iam_policy_document" "auto_discover_cluster" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ec2:DescribeInstances",
+      "ec2:DescribeTags",
+      "autoscaling:DescribeAutoScalingGroups",
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:Decrypt"
+    ]
+
+    resources = ["*"]
+  }
 }
