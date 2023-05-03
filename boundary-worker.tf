@@ -5,7 +5,7 @@ resource "random_pet" "server" {
   #   }
 }
 
-resource "boundary_worker" "fafa" {
+resource "boundary_worker" "worker_1" {
   description = "boundary self-managed-worker"
   name        = "${random_pet.server}-worker"
   scope_id = var.scope_id
