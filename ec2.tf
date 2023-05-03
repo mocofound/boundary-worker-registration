@@ -55,12 +55,6 @@ resource "aws_instance" "worker" {
       "Name" = "${var.prefix}-server-${count.index}"
     },
     {
-      "ConsulAutoJoin" = "autojoin"
-    },
-    {
-      "NomadType" = "server"
-    },
-    {
       "boundary" = "ssh"
     }
   )
@@ -76,6 +70,7 @@ resource "aws_instance" "worker" {
     server_count              = var.server_count
     region                    = var.region
     cloud_env                 = "aws"
+    worker_activation_token   = boundary_worker.worker_1.controller_generated_activation_token
   })
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
 
@@ -85,6 +80,7 @@ resource "aws_instance" "worker" {
   }
   depends_on = [
     #aws_kms_key.vault
+    boundary_worker.worker_1
   ]
 }
 
@@ -144,7 +140,7 @@ data "aws_iam_policy_document" "auto_discover_cluster" {
 }
 
 resource "aws_security_group" "boundary_sg" {
-  name_prefix = "bastian_sg"
+  name_prefix = var.prefix
   vpc_id      = var.vpc_id
 
   ingress {
@@ -156,6 +152,17 @@ resource "aws_security_group" "boundary_sg" {
       "0.0.0.0/0"
     ]
   }
+
+    ingress {
+    from_port = 9202
+    to_port   = 9202
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
