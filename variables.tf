@@ -34,3 +34,7 @@ variable "subnet_id" {
     type = string
     description = "id of subnet"
 }
+
+variable "server_count" {
+    default = 1
+}

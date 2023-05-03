@@ -38,13 +38,13 @@ resource "random_id" "random" {
   }
 }
 
-resource "aws_instance" "server" {
+resource "aws_instance" "worker" {
   count = var.server_count
   #ami                    = "${data.aws_ami.nomad-mr.image_id}"
   ami           = random_id.server.keepers.ami_id
   instance_type = var.server_instance_type
   key_name      = var.key_name
-  subnet_id     = aws_subnet.public[count.index].id
+  subnet_id     = var.subnet_id
   #subnet_id              = aws_subnet.private[count.index].id
   vpc_security_group_ids = [aws_security_group.boundary_sg.id]
 
