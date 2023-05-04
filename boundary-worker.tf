@@ -7,7 +7,7 @@ resource "random_pet" "server" {
 
 resource "boundary_worker" "worker_1" {
   description = "boundary self-managed-worker"
-  name        = "${random_pet.server}-worker"
+  name        = "${random_pet.server.id}-worker"
   scope_id = var.scope_id
   worker_generated_auth_token = "" # blank results in controller-generated-token
 }
