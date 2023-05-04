@@ -72,6 +72,7 @@ resource "aws_instance" "worker" {
     region                    = var.region
     cloud_env                 = "aws"
     worker_activation_token   = boundary_worker.worker_1.controller_generated_activation_token
+    initial_upstreams = var.initial_upstreams
     NAME = "boundary"
     TYPE = "worker"
   })
