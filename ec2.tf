@@ -3,8 +3,8 @@ data "hcp_packer_image" "nomad-multi-region" {
   bucket_name    = "nomad-multi-region"
   channel        = "latest"
   cloud_provider = "aws"
-  #region         = var.region
-  region         = "us-east-2"
+  region         = var.region
+  #region         = "us-east-2"
 }
 
 locals {
