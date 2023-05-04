@@ -25,7 +25,7 @@ listener "tcp" {
 
 worker {
   #auth_storage_path="/boundary/auth_storage"
-  initial_upstreams = ["db50eb6a-848c-4300-d908-62dc1d7119db.proxy.boundary.hashicorp.cloud:9202"]
+  initial_upstreams = "${initial_upstreams}"
   controller_generated_activation_token = "${worker_activation_token}"
   #controller_generated_activation_token = "neslat_........."
   # controller_generated_activation_token = "env://ACT_TOKEN"
