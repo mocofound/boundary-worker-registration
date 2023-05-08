@@ -1,6 +1,9 @@
 variable "boundary_cluster_url" {
 }
 
+variable "boundary_cluster_id"{
+}
+
 variable "boundary_username" {
 }
 
