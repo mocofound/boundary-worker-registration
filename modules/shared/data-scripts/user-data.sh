@@ -17,6 +17,7 @@ boundary-worker version
 
 sudo cat << EOF > /home/ubuntu/boundary/egress-worker.hcl
 disable_mlock = true
+hcp_boundary_cluster_id = "${boundary_cluster_id}"
 
 listener "tcp" {
   address = "0.0.0.0:9202"
@@ -24,12 +25,14 @@ listener "tcp" {
 }
 
 worker {
+  public_addr = "$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)"
   #auth_storage_path="/boundary/auth_storage"
-  initial_upstreams = "${initial_upstreams}"
+  #initial_upstreams = "${initial_upstreams}"
   controller_generated_activation_token = "${worker_activation_token}"
   #controller_generated_activation_token = "neslat_........."
   # controller_generated_activation_token = "env://ACT_TOKEN"
   # controller_generated_activation_token = "file:///tmp/worker_act_token"
+  auth_storage_path = "home/ubuntu/boundary/worker1"
   tags {
     type = ["egress", "downstream"]
   }
